@@ -178,7 +178,7 @@ async def chat(request: ChatRequest):
         {"role": "system", "content": system_prompt}, 
         { "role": "user", "content": request.question }
         ]
-            print("提示词", messages)
+            # print("提示词", messages)
             response =kg.deepseek.chat.completions.create(
                 model=kg.model,
                 messages=messages,
@@ -192,6 +192,23 @@ async def chat(request: ChatRequest):
             return StreamingResponse(llm_response(response), media_type="text/event-stream")
         else:
             prompt = llm_assistant.get_chat_prompt(request.question)
+            messages = [
+        {"role": "system", "content": prompt}, 
+        { "role": "user", "content": request.question }
+        ]
+            # print("提示词", messages)
+            response =kg.deepseek.chat.completions.create(
+                model=kg.model,
+                messages=messages,
+                stream=True
+            )
+            def llm_response(a):
+                for chunk in a:
+                    print(chunk.choices[0].delta.content, end="")
+                    yield chunk.choices[0].delta.content
+
+            return StreamingResponse(llm_response(response), media_type="text/event-stream")
+            # prompt = llm_assistant.get_chat_prompt(request.question)
         # async def Stream_response():
         #     yield f"data: {json.dumps({'intention': intention})}\n\n"
         #     yield llm_assistant.stream_response(prompt)
@@ -201,7 +218,7 @@ async def chat(request: ChatRequest):
         #     yield f"data: {json.dumps({'event': 'done'})}\n\n"
         
 
-            return StreamingResponse(llm_assistant.stream_response(prompt), media_type="text/event-stream")
+            # return StreamingResponse(llm_assistant.stream_response(prompt), media_type="text/event-stream")
     except Exception as e:
         print(f"发生错误: {e}")
     #     async def error_stream():
