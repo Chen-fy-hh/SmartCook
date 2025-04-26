@@ -8,6 +8,7 @@ import os
 
 from langchain_community.embeddings import OllamaEmbeddings
 from langchain.vectorstores import Chroma
+
 class RAG:
     def __init__(self):
       self=None
@@ -166,8 +167,47 @@ class RAG:
         return results
     # 对检索到的文档进行过滤：如果文档的相似度分数低于设定的阈值，则不返回该文档
     
+# from dotenv import load_dotenv
+# from openai import OpenAI
+# # 加载 .env 文件，确保 API Key 受到保护
+# load_dotenv()
+# openai_api_key = os.getenv("OPENAI_API_KEY") # 读取 OpenAI API Key
+# base_url = os.getenv("BASE_URL") # 读取 BASE YRL
+# model = os.getenv("MODEL") # 读取 model
+# query="用户独资、合资或集资建设的供电设施建成后，其运行维护管理按照什么规定确定"
+# deepseek=OpenAI(api_key=openai_api_key, base_url=base_url)
 
 
+
+# def main():
+#     a = RAG()
+#     b=a.load_all('knowledge_base_docs')
+#     c=a.split_documents(b, chunk_size=500, chunk_overlap=200)
+#     a.embed_documents(c, embedding_model="smartcreation/bge-large-zh-v1.5:latest", persist_directory="./chroma_db")
+#     e=a.load_vector_store(embedding_model="smartcreation/bge-large-zh-v1.5:latest", persist_directory="./chroma_db")
+#     f=a.retrieve(e, query="用户独资、合资或集资建设的供电设施建成后，其运行维护管理按照什么规定确定", top_k=5)
+#     # print(f)
+#     k=f"你是一个供电所规则助手，需要基于以下供电所规则回答问题 知识库：{f}"
+#     messages = [
+#         {
+#             "role": "system",
+#             "content": k }, 
+#     { "role": "user", "content": query } ]
+#     # print(messages)
+#     stream = deepseek.chat.completions.create(
+#             model=model,
+#             messages=messages,
+#             stream=True,
+#     )
+#     i=0
+#     for chunk in stream:
+#         a=chunk.choices[0].delta.content
+#         print(a, end="")
+#     # llm_response = response.choices[0].message.content
+#     # print(f"LLM Response: {llm_response}")
+
+# if __name__ == "__main__":
+#     main()
 
 
 
